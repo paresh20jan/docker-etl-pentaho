@@ -33,7 +33,7 @@ sudo docker run \
 -e MYSQL_PASSWORD=test \
 -d percona:5.7
 
-#start mongo db container
+# start mongo db container
 docker pull mongo:3.3
 
 sudo docker run \
@@ -41,5 +41,5 @@ sudo docker run \
 -p 27017:27017 \
 -d mongo:3.3
 
-#run kettle job from docker run
+# run kettle job from docker run
 sudo docker run --privileged -v /data:/pentahodata provisioned-pdi script.sh https://github.com/diethardsteiner/diethardsteiner.github.io sample-files/pdi/pdi-and-teiid-data-virtualization/my-version/di/job_load_data_for_virt_demo.kjb
