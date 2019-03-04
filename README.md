@@ -2,8 +2,6 @@
 # GIT link 	: https://github.com/knowbi/scalable-pdi-docker
 
 # from /docker-etl-pentaho/base$ 
-sudo docker build -t pdi .
-
 # docker-etl-pentaho : Dockerize Pentaho Development
 
 sudo docker build -t pdi .
