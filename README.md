@@ -5,6 +5,8 @@
 # docker-etl-pentaho : Dockerize Pentaho Development
 
 sudo docker build -t pdi .
+
+# from /docker-etl-pentaho/provision$ 
 sudo docker build -t provisioned-pdi .
 sudo docker run -it provisioned-pdi
 
