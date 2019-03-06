@@ -9,11 +9,11 @@ RUN	chown -R pentaho /opt/*
 WORKDIR	/home/pentaho
 
 # add ssh key
-COPY	build/ssh/* /home/pentaho/.ssh/
-RUN	chown -R pentaho /home/pentaho/
+#COPY	build/ssh/* /home/pentaho/.ssh/
+#RUN	chown -R pentaho /home/pentaho/
 
 USER	pentaho
-RUN     eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
+#RUN     eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa
 
 # add kettle.properties
 COPY	build/properties/kettle.properties .kettle/
