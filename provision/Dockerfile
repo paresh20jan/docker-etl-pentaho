@@ -23,6 +23,7 @@ WORKDIR	/opt/data-integration
 COPY	build/plugins/* plugins/
 COPY	build/drivers/* lib/
 COPY	build/properties/jdbc.properties simple-jndi/
+COPY    build/etl/trans/* samples/transformations/
 
 # add entrypoint
 COPY	build/entry/script.sh .
