@@ -24,6 +24,7 @@ COPY	build/plugins/* plugins/
 COPY	build/drivers/* lib/
 COPY	build/properties/jdbc.properties simple-jndi/
 COPY    build/etl/trans/* samples/transformations/
+COPY	build/data/* samples/transformations/files
 
 # add entrypoint
 COPY	build/entry/script.sh .
