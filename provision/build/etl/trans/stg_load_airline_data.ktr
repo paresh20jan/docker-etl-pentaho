@@ -6,8 +6,14 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
+      <parameter>
+        <name>file_name</name>
+        <default_value>1996.csv</default_value>
+        <description/>
+      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -508,7 +514,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${csv_file_path}</filename>
+    <filename>${csv_file_path}/${file_name}</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
