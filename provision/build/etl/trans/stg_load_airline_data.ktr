@@ -10,6 +10,11 @@
     <directory>/</directory>
     <parameters>
       <parameter>
+        <name>csv_file_path</name>
+        <default_value>./data</default_value>
+        <description/>
+      </parameter>
+      <parameter>
         <name>file_name</name>
         <default_value>1996.csv</default_value>
         <description/>
