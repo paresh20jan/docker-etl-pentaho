@@ -370,7 +370,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>/home/paresh_rane/pentaho/build/etl/trans/stg_load_airline_data.ktr</filename>
+      <filename>./samples/transformations/stg_load_airline_data.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
