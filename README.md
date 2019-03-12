@@ -5,8 +5,7 @@
 #Copy data-integration folder post downloading code from GitHub
 sudo cp -rf  /home/paresh_rane/data-integration/* /home/paresh_rane/docker-etl-pentaho/base/data-integration/
 
-# from /docker-etl-pentaho/base$ 
-# docker-etl-pentaho : Dockerize Pentaho Development
+# docker-etl-pentaho : Dockerize Pentaho Development from /docker-etl-pentaho/base$ 
 
 sudo docker build -t pdi .
 
@@ -16,8 +15,19 @@ sudo docker run -it provisioned-pdi
 
 # test if pdi is working on container
 
-sudo docker exec -it provisioned-pdi bash
 nohup ./pan.sh -norep -file=/opt/data-integration/samples/transformations/ProcessID.ktr -logfile=/opt/data-integration/logs/etl.log
+
+nohup ./kitchen.sh -norep -file=/opt/data-integration/samples/jobs/job_load_data_for_virt_demo.kjb -logfile=/opt/data-integration/logs/etl.log
+
+nohup ./pan.sh -norep -file=/opt/data-integration/samples/transformations/stg_load_airline_data.ktr -logfile=/opt/data-integration/logs/etl.log
+#nohup ./kitchen.sh -norep -file=/opt/data-integration/samples/jobs/job_load_data_for_stg_ontime.kjb -logfile=/opt/data-integration/logs/etl.log
+
+# on local pentaho server
+./pan.sh -norep -file=samples/transformations/stg_load_airline_data.ktr "-param:file_name=1996.csv"
+
+
+# verify etl log
+cat logs/etl.log
 
 # Stop existing container
 
@@ -45,8 +55,23 @@ sudo docker run \
 -p 27017:27017 \
 -d mongo:3.3
 
+#Verify volume mounting
+
+sudo docker run -it --name devtest -v "$(pwd)"/data:/opt/data-integration/data provisioned-pdi
+sudo docker inspect devtest
+sudo docker stop devtest
+sudo docker rm devtest
+
+
 # run kettle job from docker run
-sudo docker run --privileged -v /data:/pentahodata provisioned-pdi script.sh https://github.com/diethardsteiner/diethardsteiner.github.io sample-files/pdi/pdi-and-teiid-data-virtualization/my-version/di/job_load_data_for_virt_demo.kjb
+
+sudo docker run --privileged -v "$(pwd)"/data:/opt/data-integration/data provisioned-pdi  script.sh https://github.com/pareshrane/docker-etl-pentaho provision/build/etl/trans/stg_load_airline_data.ktr "-param:file_name=1996.csv"
+
+sudo docker run --privileged -v "$(pwd)"/data:/opt/data-integration/data provisioned-pdi  script.sh https://github.com/pareshrane/docker-etl-pentaho provision/build/etl/trans/stg_load_airline_data.ktr "-param:file_name=1997.csv"
+
+sudo docker run --privileged -v "$(pwd)"/data:/opt/data-integration/data provisioned-pdi  script.sh https://github.com/pareshrane/docker-etl-pentaho provision/build/etl/jobs/job_load_data_for_stg_ontime.kjb "-param:file_name=1997.csv"
+
+
 
 #Empty data-integration folder before uploading code to GitHub
 sudo rm -r  /home/paresh_rane/docker-etl-pentaho/base/data-integration/*
