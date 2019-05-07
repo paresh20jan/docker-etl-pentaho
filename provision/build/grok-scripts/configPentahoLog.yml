@@ -1,0 +1,27 @@
+global:
+    config_version: 2
+input:
+    type: file
+    path: ../data-integration/logs/etl.log
+    readall: true # Read from the beginning of the file? False means we start at the end of the file and read only new lines.
+    fail_on_missing_logfile: true # grok_exporter to start successfully even if the logfile is not found, because you know the file will be created later
+grok:
+    patterns_dir: ./patterns
+    additional_patterns:
+    - 'JOB_MESSAGE [a-zA-Z ]*'
+metrics:
+    - type: counter
+      name: job_succeeded_total
+      help: Total number of succeeded jobs.
+      match: '%{YEAR:exim_year}/%{MONTHNUM:exim_month}/%{MONTHDAY:exim_day} %{TIME:exim_time} - %{WORD:job_name} - %{JOB_MESSAGE:job_status} \[SQL\] \(result=\[true\]\)'
+      labels:
+             job_name: '{{.job_name}}'	  
+    - type: counter
+      name: job_failed_total
+      help: Total number of failed jobs.
+      match: '%{YEAR:exim_year}/%{MONTHNUM:exim_month}/%{MONTHDAY:exim_day} %{TIME:exim_time} - %{WORD:job_name} - %{JOB_MESSAGE:job_status} \[SQL\] \(result=\[false\]\)'
+      labels:
+             job_name: '{{.job_name}}'
+server:
+    host: 0.0.0.0
+    port: 9145

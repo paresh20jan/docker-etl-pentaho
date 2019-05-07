@@ -31,7 +31,9 @@ git clone $src $etl
 echo $etl/$obj$space$para
 
 if [ $ext == .ktr ]; then # transformation
-        sh ./pan.sh -file=$etl/$obj$space$para -norepo
+        # sh ./pan.sh -file=$etl/$obj$space$para -norepo
+	sh ./pan.sh -file=$etl/$obj$space$para -norepo -logfile=logs/etl.log
 elif [ $ext == .kjb ]; then # job
-        sh ./kitchen.sh -file=$etl/$obj$space$para -norepo
+	# sh ./kitchen.sh -file=$etl/$obj$space$para -norepo -logfile=logs/etl.log
+        sh ./kitchen.sh -file=$etl/$obj$space$para -norepo -logfile=logs/etl.log
 fi

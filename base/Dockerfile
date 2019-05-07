@@ -8,7 +8,8 @@ RUN     apt-get update && \
         apt-get -y install --no-install-recommends unzip && \
         apt-get -y install --no-install-recommends git && \
         apt-get -y install --no-install-recommends ssh && \
-        apt-get -y install --no-install-recommends libwebkitgtk-1.0-0 && \
+        apt-get -y install --no-install-recommends curl && \
+	apt-get -y install --no-install-recommends libwebkitgtk-1.0-0 && \
 	apt-get -y install xvfb gtk2-engines-pixbuf && \
 	apt-get -y install --no-install-recommends apt-utils && \
         apt-get clean && \

@@ -18,6 +18,7 @@ USER	pentaho
 # add kettle.properties
 COPY	build/properties/kettle.properties .kettle/
 
+
 # add plugins, drivers, jdbc.properties
 WORKDIR	/opt/data-integration
 #RUN     mkdir data/
@@ -26,8 +27,8 @@ COPY	build/drivers/* lib/
 COPY	build/properties/jdbc.properties simple-jndi/
 COPY    build/etl/trans/* samples/transformations/
 COPY    build/etl/jobs/* samples/jobs/
-#COPY    build/data/* data/
-#COPY	build/data/* samples/transformations/files
+
+
 
 # add entrypoint
 COPY	build/entry/script.sh .
