@@ -3,7 +3,7 @@
 
 
 #Copy data-integration folder post downloading code from GitHub
-sudo cp -rf  /home/paresh_rane/data-integration/* /home/paresh_rane/docker-etl-pentaho/base/data-integration/
+sudo cp -rf  /home/pareshra/data-integration/* /home/pareshra/docker-etl-pentaho/base/data-integration/
 
 # docker-etl-pentaho : Dockerize Pentaho Development from /docker-etl-pentaho/base$ 
 
@@ -11,7 +11,10 @@ sudo docker build -t pdi .
 
 # from /docker-etl-pentaho/provision$ 
 sudo docker build -t provisioned-pdi .
-sudo docker run -it provisioned-pdi
+sudo docker run -p -it provisioned-pdi
+
+sudo docker run -p 9145:9145 -it  provisioned-pdi
+
 
 # test if pdi is working on container
 
@@ -20,11 +23,11 @@ nohup ./pan.sh -norep -file=/opt/data-integration/samples/transformations/Proces
 nohup ./kitchen.sh -norep -file=/opt/data-integration/samples/jobs/job_load_data_for_virt_demo.kjb -logfile=/opt/data-integration/logs/etl.log
 
 nohup ./pan.sh -norep -file=/opt/data-integration/samples/transformations/stg_load_airline_data.ktr -logfile=/opt/data-integration/logs/etl.log
-#nohup ./kitchen.sh -norep -file=/opt/data-integration/samples/jobs/job_load_data_for_stg_ontime.kjb -logfile=/opt/data-integration/logs/etl.log
+nohup ./kitchen.sh -norep -file=/opt/data-integration/samples/jobs/job_load_data_for_stg_ontime.kjb -logfile=/opt/data-integration/logs/etl.log
 
 # on local pentaho server
-./pan.sh -norep -file=samples/transformations/stg_load_airline_data.ktr "-param:file_name=1996.csv"
-
+nohup ./pan.sh -norep -file=samples/transformations/stg_load_airline_data.ktr "-param:file_name=1996.csv" -logfile=logs/etl.log
+nohup ./kitchen.sh -norep -file=samples/jobs/job_load_data_for_stg_ontime.kjb "-param:file_name=1997.csv" -logfile=logs/etl.log
 
 # verify etl log
 cat logs/etl.log
@@ -33,6 +36,7 @@ cat logs/etl.log
 
 sudo docker stop myPerconaContainer
 sudo docker rm myPerconaContainer
+
 
 sudo docker stop myMongoContainer
 sudo docker rm myMongoContainer
@@ -71,7 +75,26 @@ sudo docker run --privileged -v "$(pwd)"/data:/opt/data-integration/data provisi
 
 sudo docker run --privileged -v "$(pwd)"/data:/opt/data-integration/data provisioned-pdi  script.sh https://github.com/pareshrane/docker-etl-pentaho provision/build/etl/jobs/job_load_data_for_stg_ontime.kjb "-param:file_name=1997.csv"
 
+sudo docker run --stop-timeout=60 --privileged -v "$(pwd)"/data:/opt/data-integration/data provisioned-pdi  script.sh https://github.com/pareshrane/docker-etl-pentaho provision/build/etl/jobs/job_load_data_for_stg_ontime.kjb "-param:file_name=1996.csv"
+
+
+sudo docker run -p 9145:9145 --privileged -v "$(pwd)"/data:/opt/data-integration/data provisioned-pdi  script.sh https://github.com/pareshrane/docker-etl-pentaho provision/build/etl/jobs/job_load_data_for_stg_ontime.kjb "-param:file_name=1997.csv"
+
+sudo docker run -p 9145:9145 --privileged -v "$(pwd)"/data:/opt/data-integration/data provisioned-pdi -v "$(pwd)"/etllog:/opt/data-integration/logs script.sh https://github.com/pareshrane/docker-etl-pentaho provision/build/etl/jobs/job_load_data_for_stg_ontime.kjb "-param:file_name=1997.csv"
+
+sudo docker run --privileged -v "$(pwd)"/data:/opt/data-integration/data -v "$(pwd)"/grok/example:/opt/data-integration/logs provisioned-pdi script.sh https://github.com/pareshrane/docker-etl-pentaho provision/build/etl/jobs/job_load_data_for_stg_ontime.kjb "-param:file_name=1997.csv"
+
 
 
 #Empty data-integration folder before uploading code to GitHub
-sudo rm -r  /home/paresh_rane/docker-etl-pentaho/base/data-integration/*
+sudo rm -r  /home/pareshra/docker-etl-pentaho/base/data-integration/*
+
+
+#kill all provisional container at regular hours
+sudo docker rm $(sudo docker stop $(sudo docker ps -a -q --filter ancestor=provisioned-pdi --format="{{.ID}}"))
+
+#Kill All Docker container
+docker kill $(docker ps -q)
+
+
+
