@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>stg_load_airline_data</name>
+    <name>LoadingOnTime</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -11,7 +11,7 @@
     <parameters>
       <parameter>
         <name>csv_file_path</name>
-        <default_value>opt/data-integration/data</default_value>
+        <default_value>/home/pareshra/data/Transactional/FlightOnTimeData/</default_value>
         <description/>
       </parameter>
       <parameter>
@@ -438,66 +438,30 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2019/02/21 15:47:05.472</created_date>
+    <created_date>2019/07/02 12:41:11.452</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2019/02/21 15:47:05.472</modified_date>
+    <modified_date>2019/07/02 12:41:11.452</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>STG</name>
-    <server>172.27.56.156</server>
-    <type>MYSQL</type>
+    <name>Postgres</name>
+    <server>localhost</server>
+    <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>test</database>
-    <port>3306</port>
-    <username>test</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce10ca97bcce</password>
+    <database>airline_staging</database>
+    <port>5432</port>
+    <username>postgres</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79aa7fdd99aac8</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
       <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>3306</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>STREAM_RESULTS</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
+        <attribute>5432</attribute>
       </attribute>
     </attributes>
   </connection>
@@ -519,7 +483,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${csv_file_path}/${file_name}</filename>
+    <filename>${csv_file_path}${file_name}</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -529,29 +493,29 @@
     <buffer_size>50000</buffer_size>
     <lazy_conversion>Y</lazy_conversion>
     <add_filename_result>N</add_filename_result>
-    <parallel>Y</parallel>
+    <parallel>N</parallel>
     <newline_possible>N</newline_possible>
     <encoding/>
     <fields>
       <field>
-        <name>Year</name>
+        <name>Year_C</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>Month</name>
+        <name>Month_C</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -559,10 +523,10 @@
         <name>DayofMonth</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -570,10 +534,10 @@
         <name>DayOfWeek</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -581,10 +545,10 @@
         <name>DepTime</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -592,10 +556,10 @@
         <name>CRSDepTime</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -603,10 +567,10 @@
         <name>ArrTime</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -614,10 +578,10 @@
         <name>CRSArrTime</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -625,10 +589,10 @@
         <name>UniqueCarrier</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>2</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -636,10 +600,10 @@
         <name>FlightNum</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -647,10 +611,10 @@
         <name>TailNum</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>6</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -658,10 +622,10 @@
         <name>ActualElapsedTime</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -669,10 +633,10 @@
         <name>CRSElapsedTime</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -680,10 +644,10 @@
         <name>AirTime</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -691,10 +655,10 @@
         <name>ArrDelay</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -702,10 +666,10 @@
         <name>DepDelay</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -713,10 +677,10 @@
         <name>Origin</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>3</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -724,10 +688,10 @@
         <name>Dest</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>3</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -735,10 +699,10 @@
         <name>Distance</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -746,10 +710,10 @@
         <name>TaxiIn</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -757,10 +721,10 @@
         <name>TaxiOut</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -768,10 +732,10 @@
         <name>Cancelled</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -779,10 +743,10 @@
         <name>CancellationCode</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>2</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -790,10 +754,10 @@
         <name>Diverted</name>
         <type>String</type>
         <format>#</format>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>15</length>
         <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
@@ -801,10 +765,10 @@
         <name>CarrierDelay</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>2</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -812,10 +776,10 @@
         <name>WeatherDelay</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>2</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -823,10 +787,10 @@
         <name>NASDelay</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>2</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -834,10 +798,10 @@
         <name>SecurityDelay</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>2</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -845,10 +809,10 @@
         <name>LateAircraftDelay</name>
         <type>String</type>
         <format/>
-        <currency>Rs.</currency>
+        <currency>₹</currency>
         <decimal>.</decimal>
         <group>,</group>
-        <length>1000</length>
+        <length>2</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -862,8 +826,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>192</yloc>
+      <xloc>48</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -878,14 +842,14 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>STG</connection>
-    <schema/>
+    <connection>Postgres</connection>
+    <schema>public</schema>
     <table>stg_ontime</table>
     <commit>1000</commit>
-    <truncate>Y</truncate>
+    <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
+    <specify_fields>N</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
     <partitioning_field/>
     <partitioning_daily>N</partitioning_daily>
@@ -896,122 +860,6 @@
     <return_keys>N</return_keys>
     <return_field/>
     <fields>
-      <field>
-        <column_name>Year</column_name>
-        <stream_name>Year</stream_name>
-      </field>
-      <field>
-        <column_name>Month</column_name>
-        <stream_name>Month</stream_name>
-      </field>
-      <field>
-        <column_name>DayofMonth</column_name>
-        <stream_name>DayofMonth</stream_name>
-      </field>
-      <field>
-        <column_name>DayOfWeek</column_name>
-        <stream_name>DayOfWeek</stream_name>
-      </field>
-      <field>
-        <column_name>DepTime</column_name>
-        <stream_name>DepTime</stream_name>
-      </field>
-      <field>
-        <column_name>CRSDepTime</column_name>
-        <stream_name>CRSDepTime</stream_name>
-      </field>
-      <field>
-        <column_name>ArrTime</column_name>
-        <stream_name>ArrTime</stream_name>
-      </field>
-      <field>
-        <column_name>CRSArrTime</column_name>
-        <stream_name>CRSArrTime</stream_name>
-      </field>
-      <field>
-        <column_name>UniqueCarrier</column_name>
-        <stream_name>UniqueCarrier</stream_name>
-      </field>
-      <field>
-        <column_name>FlightNum</column_name>
-        <stream_name>FlightNum</stream_name>
-      </field>
-      <field>
-        <column_name>TailNum</column_name>
-        <stream_name>TailNum</stream_name>
-      </field>
-      <field>
-        <column_name>ActualElapsedTime</column_name>
-        <stream_name>ActualElapsedTime</stream_name>
-      </field>
-      <field>
-        <column_name>CRSElapsedTime</column_name>
-        <stream_name>CRSElapsedTime</stream_name>
-      </field>
-      <field>
-        <column_name>AirTime</column_name>
-        <stream_name>AirTime</stream_name>
-      </field>
-      <field>
-        <column_name>ArrDelay</column_name>
-        <stream_name>ArrDelay</stream_name>
-      </field>
-      <field>
-        <column_name>DepDelay</column_name>
-        <stream_name>DepDelay</stream_name>
-      </field>
-      <field>
-        <column_name>Origin</column_name>
-        <stream_name>Origin</stream_name>
-      </field>
-      <field>
-        <column_name>Dest</column_name>
-        <stream_name>Dest</stream_name>
-      </field>
-      <field>
-        <column_name>Distance</column_name>
-        <stream_name>Distance</stream_name>
-      </field>
-      <field>
-        <column_name>TaxiIn</column_name>
-        <stream_name>TaxiIn</stream_name>
-      </field>
-      <field>
-        <column_name>TaxiOut</column_name>
-        <stream_name>TaxiOut</stream_name>
-      </field>
-      <field>
-        <column_name>Cancelled</column_name>
-        <stream_name>Cancelled</stream_name>
-      </field>
-      <field>
-        <column_name>CancellationCode</column_name>
-        <stream_name>CancellationCode</stream_name>
-      </field>
-      <field>
-        <column_name>Diverted</column_name>
-        <stream_name>Diverted</stream_name>
-      </field>
-      <field>
-        <column_name>CarrierDelay</column_name>
-        <stream_name>CarrierDelay</stream_name>
-      </field>
-      <field>
-        <column_name>WeatherDelay</column_name>
-        <stream_name>WeatherDelay</stream_name>
-      </field>
-      <field>
-        <column_name>NASDelay</column_name>
-        <stream_name>NASDelay</stream_name>
-      </field>
-      <field>
-        <column_name>SecurityDelay</column_name>
-        <stream_name>SecurityDelay</stream_name>
-      </field>
-      <field>
-        <column_name>LateAircraftDelay</column_name>
-        <stream_name>LateAircraftDelay</stream_name>
-      </field>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -1022,12 +870,24 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>192</yloc>
+      <xloc>272</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
+    <error>
+      <source_step>CSV file input</source_step>
+      <target_step/>
+      <is_enabled>N</is_enabled>
+      <nr_valuename/>
+      <descriptions_valuename/>
+      <fields_valuename/>
+      <codes_valuename/>
+      <max_errors/>
+      <max_pct_errors/>
+      <min_pct_rows/>
+    </error>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>

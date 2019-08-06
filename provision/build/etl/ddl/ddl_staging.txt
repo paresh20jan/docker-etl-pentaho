@@ -1,0 +1,213 @@
+Staging Tables;
+
+CREATE DATABASE 
+Create database airline_staging;
+
+CREATE SCHEMA :
+Create schema error;
+Create schema pdw;
+Create schema QTables;
+
+CREATE TABLES:
+1)	Stg_airports
+CREATE TABLE public.stg_airports(
+	iata varchar(50) NULL,
+	airport varchar(50) NULL,
+	city varchar(50) NULL,
+	state varchar(50) NULL,
+	country] varchar(50) NULL,
+	lat varchar(50) NULL,
+	long varchar(50) NULL
+) ;
+
+
+
+
+2)	Stg_carriers
+CREATE TABLE public.stg_carriers(
+	Code varchar(50) NULL,
+	Description varchar(200) NULL
+) ;
+
+3)	Stg_ontime:
+CREATE TABLE public.stg_ontime(
+	Year varchar(50) NULL,
+	Month varchar(50) NULL,
+	DayofMonth varchar(50) NULL,
+	DayOfWeek varchar(50) NULL,
+	DepTime varchar(50) NULL,
+	CRSDepTime varchar(50) NULL,
+	ArrTime varchar(50) NULL,
+	CRSArrTime varchar(50) NULL,
+	UniqueCarrier varchar(50) NULL,
+	FlightNum varchar(50) NULL,
+	TailNum varchar(50) NULL,
+	ActualElapsedTime varchar(50) NULL,
+	CRSElapsedTime varchar(50) NULL,
+	AirTime varchar(50) NULL,
+	ArrDelay varchar(50) NULL,
+	DepDelay varchar(50) NULL,
+	Origin varchar(50) NULL,
+	Dest varchar(50) NULL,
+	Distance varchar(50) NULL,
+	TaxiIn varchar(50) NULL,
+	TaxiOut varchar(50) NULL,
+	Cancelled varchar(50) NULL,
+	CancellationCode varchar(50) NULL,
+	Diverted varchar(50) NULL,
+	CarrierDelay varchar(50) NULL,
+	WeatherDelay varchar(50) NULL,
+	NASDelay varchar(50) NULL,
+	SecurityDelay varchar (50) NULL,
+	LateAircraftDelay varchar(50) NULL
+) ;
+
+4)	Stg_planes
+CREATE TABLE public.stg_planes(
+	tailnum varchar(50) NULL,
+	type varchar(50) NULL,
+	manufacturer varchar(50) NULL,
+	issue_date date NULL,
+	model varchar(50) NULL,
+	status varchar(50) NULL,
+	aircraft_type varchar(50) NULL,
+	engine_type varchar(50) NULL,
+	year varchar(50) NULL
+) ;
+
+
+CREATE PROCEDURES:
+1)	Convert Null_Issue_Date
+create or replace procedure usp_ConvertNullIssueDate()
+language plpgsql 
+as $$
+begin
+			update airline_staging.stg_plane
+			SET 
+			issue_date='01/01/1900'
+			where issue_date='';
+end;
+$$;
+
+2)	Convert NA_Values
+ CREATE or replace PROCEDURE usp_ConvertNAvalues()
+language plpgsql
+AS $$
+BEGIN
+		-- SET NOCOUNT ON added to prevent extra result sets from
+		-- interfering with SELECT statements.
+		--SET NOCOUNT ON;
+
+
+		update airline_staging.public.stg_ontime
+		SET 
+			DepTime='0000'
+			where DepTime='NA';
+			update airline_staging.public.stg_ontime
+		SET
+CRSDepTime='0000'
+			where CRSDepTime='NA';
+
+			update airline_staging.public.stg_ontime
+		SET 
+			ArrTime='0000'
+			where ArrTime='NA';
+			update airline_staging.public.stg_ontime
+		SET 
+			CRSArrTime='0000'
+			where CRSArrTime='NA';
+			update airline_staging.public.stg_ontime
+		SET 
+			ActualElapsedTime='0000'
+			where ActualElapsedTime='NA';
+			update airline_staging.public.stg_ontime
+		SET 
+			AirTime='0000'
+			where AirTime='NA';
+			update airline_staging.public.stg_ontime
+		SET 
+			ArrDelay='0000'
+			where ArrDelay='NA';
+			update airline_staging.public.stg_ontime
+		SET 
+			DepDelay='0000'
+			where DepDelay='NA';
+update airline_staging.public.stg_ontime
+		SET 
+			Distance='0000'
+			where Distance='NA';
+			update airline_staging.public.stg_ontime
+		SET 
+			TaxiIn='0000'
+			where TaxiIn='NA';
+			update airline_staging.public.stg_ontime
+		SET 
+			TaxiOut='0000'
+			where TaxiOut='NA';
+END;
+$$;
+
+
+CREATE TABLES IN ERROR SCHEMA:
+CREATE TABLE error.stg_airports(
+	iata varchar(50) NULL,
+	airport varchar(50) NULL,
+	city varchar(50) NULL,
+	state varchar(50) NULL,
+	country varchar(50) NULL,
+	lat varchar(50) NULL,
+	long varchar(50) NULL
+) ;
+
+
+Error Schema
+
+CREATE TABLE error.stg_carriers(
+	Code varchar(50) NULL,
+	Description varchar(200) NULL
+) ;
+
+CREATE TABLE error.stg_ontime(
+	Year varchar(50) NULL,
+	Month varchar(50) NULL,
+	DayofMonth varchar(50) NULL,
+	DayOfWeek varchar(50) NULL,
+	DepTime varchar(50) NULL,
+	CRSDepTime varchar(50) NULL,
+	ArrTime varchar(50) NULL,
+	CRSArrTime varchar(50) NULL,
+	UniqueCarrier varchar(50) NULL,
+	FlightNum varchar(50) NULL,
+	TailNum varchar(50) NULL,
+	ActualElapsedTime varchar(50) NULL,
+	CRSElapsedTime varchar(50) NULL,
+	AirTime varchar(50) NULL,
+	ArrDelay varchar(50) NULL,
+	DepDelay varchar(50) NULL,
+	Origin varchar(50) NULL,
+	Dest varchar(50) NULL,
+	Distance varchar(50) NULL,
+	TaxiIn varchar(50) NULL,
+	TaxiOut varchar(50) NULL,
+	Cancelled varchar(50) NULL,
+	CancellationCode varchar(50) NULL,
+	Diverted varchar(50) NULL,
+	CarrierDelay varchar(50) NULL,
+	WeatherDelay varchar(50) NULL,
+	NASDelay varchar(50) NULL,
+	SecurityDelay varchar (50) NULL,
+	LateAircraftDelay varchar(50) NULL
+) ;
+
+CREATE TABLE error.stg_planes(
+	tailnum varchar(50) NULL,
+	type varchar(50) NULL,
+	manufacturer varchar(50) NULL,
+	issue_date date NULL,
+	model varchar(50) NULL,
+	status varchar(50) NULL,
+	aircraft_type varchar(50) NULL,
+	engine_type varchar(50) NULL,
+	year varchar(50) NULL
+) ;
+

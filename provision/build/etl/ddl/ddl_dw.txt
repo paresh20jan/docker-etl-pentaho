@@ -1,0 +1,351 @@
+CREATE DIMESION TABLES:
+
+1)	DIM_CARRIER:
+CREATE TABLE Dim_Carrier(
+	CarrierKey serial,
+	CarrierCode varchar(50) NULL,
+	CarrierDescription varchar(200) NULL,
+	LoadTimestamp timestamp NULL,
+	LoadUserId varchar(25) NULL,
+ CONSTRAINT PK_CarrierKey PRIMARY KEY 
+(
+	CarrierKey 
+)
+) ;
+
+CREATE UNIQUE INDEX CONCURRENTLY UQ_CarrierKey 
+ON DIM_CARRIER (CarrierKey);
+
+ALTER TABLE dim_carrier 
+ADD CONSTRAINT uq_carrierkey 
+UNIQUE USING INDEX UQ_CarrierKey;
+
+
+CREATE TABLE Dim_destairport(
+	destairportKey serial,
+	IATA varchar(5) NULL,
+	AirportName varchar(50) NULL,
+	City varchar(50) NULL,
+	State varchar(50) NULL,
+	Country varchar(50) NULL,
+	Lattitude varchar(50) NULL,
+	Longitude varchar(50) NULL,
+	LoadTimestamp timestamp default current_timestamp,
+	LoadUserId varchar(25) NULL,
+	"version" integer NULL,
+	date_from date default current_date,
+	date_to date default current_date,
+ CONSTRAINT PK_destairportKey PRIMARY KEY 
+(
+	destairportKey 
+));
+ 
+ 
+ CREATE UNIQUE INDEX CONCURRENTLY UQ_destairportKey 
+ON dim_destairport (destairportKey);
+
+
+ALTER TABLE dim_destairport
+ADD CONSTRAINT uq_destairportkey 
+UNIQUE USING INDEX UQ_destairportKey;
+
+3)	DIM_ORGAIRPORT:
+CREATE TABLE Dim_OrgAirport(
+	OrgAirportKey serial,
+	IATA varchar(5) NULL,
+	AirportName varchar(50) NULL,
+	City varchar(50) NULL,
+	State varchar(50) NULL,
+	Country varchar(50) NULL,
+	Lattitude varchar(50) NULL,
+	Longitude varchar(50) NULL,
+	LoadTimestamp timestamp default current_timestamp,
+	LoadUserId varchar(25) NULL,
+	"version" integer NULL,
+	date_from date default current_date,
+	date_to date default current_date,
+ CONSTRAINT PK_OrgAirportKey PRIMARY KEY 
+(
+	OrgAirportKey 
+));
+ 
+ 
+ CREATE UNIQUE INDEX CONCURRENTLY UQ_OrgAirportKey 
+ON dim_orgairport (OrgAirportKey);
+
+
+ALTER TABLE dim_orgairport
+ADD CONSTRAINT uq_orgairportkey 
+UNIQUE USING INDEX UQ_OrgAirportKey;
+
+4)	DIM_PLANE:
+CREATE TABLE Dim_Plane(
+	PlaneKey serial,
+	TailNum varchar(10) NOT NULL,
+	PlaneType varchar(20) NULL,
+	Manufacturer varchar(50) NULL,
+	IssueDate date NULL,
+	Model varchar(20) NULL,
+	Status varchar(20) NULL,
+	AircraftType varchar(50) NULL,
+	EngineType varchar(15) NULL,
+	MfgYear varchar(4) NULL,
+	LoadTimestamp timestamp NOT NULL,
+	LoadUserId varchar(25) NULL,
+ CONSTRAINT PK_PlaneKey PRIMARY KEY  
+(
+	PlaneKey 
+)
+);
+
+CREATE UNIQUE INDEX CONCURRENTLY UQ_PlaneKey 
+ON dim_plane (PlaneKey);
+
+
+ALTER TABLE dim_plane
+ADD CONSTRAINT uq_planekey 
+UNIQUE USING INDEX UQ_PlaneKey;
+
+5)	DIM_DATE:
+CREATE TABLE Dim_Date(
+	DateKey serial,
+	FullDateAlternateKey date NOT NULL,
+	DayNumberOfWeek smallint NOT NULL,
+	DayNameOfWeek varchar(10) NOT NULL,
+	DayNumberOfMonth smallint NOT NULL,
+	DayNumberOfYear smallint NOT NULL,
+	WeekNumberOfYear smallint NOT NULL,
+	MonthName varchar(10) NOT NULL,
+	MonthNumberOfYear smallint NOT NULL,
+	CalendarQuarter smallint NOT NULL,
+	CalendarSemester smallint NOT NULL,
+	CalendarYear smallint NOT NULL,
+	LoadTimestamp timestamp not null,
+	LoadUserId varchar(25) NULL,
+ CONSTRAINT PK_DateKey PRIMARY KEY  
+(
+	DateKey 
+)
+);
+
+CREATE UNIQUE INDEX CONCURRENTLY UQ_DateKey
+ON dim_date(DateKey);
+
+
+ALTER TABLE dim_date
+ADD CONSTRAINT uq_datekey
+UNIQUE USING INDEX UQ_DateKey;
+
+Fact Tables
+CREATE SEQUENCE Fact_Weather_seq;
+
+CREATE TABLE Fact_Weather(
+	WeatherKey int DEFAULT NEXTVAL ('Fact_Weather_seq') NOT NULL,
+	DateKey int NOT NULL,
+	MonitorStartHour varchar(4) NULL,
+	MonitorEndHour varchar(4) NULL,
+ CONSTRAINT PK_WeatherKey PRIMARY KEY 
+(
+	WeatherKey 
+),
+UNIQUE 
+(
+	WeatherKey 
+) ,
+ CONSTRAINT Uq_Weather UNIQUE 
+(
+	WeatherKey ,
+	DateKey 
+)  
+);
+
+Error Schema:
+CREATE TABLE error.Fact_FlightOnTime(
+	Err_Key serial primary key,
+	FK_DateKey int NULL,
+	CarrierKey int NULL,
+	PlaneKey int NULL,
+	OrgAirportKey int NULL,
+	destairportKey int NULL,
+	Year varchar(50) NULL,
+	Month varchar(50) NULL,
+	DayofMonth varchar(50) NULL,
+	DayOfWeek varchar(50) NULL,
+	DeptTime smallint NULL,
+	CRSDepTime smallint NULL,
+	ArrTime smallint NULL,
+	CRSArrTime smallint NULL,
+	ActualElaspedTime smallint NULL,
+	AirTime smallint NULL,
+	ArrDelay smallint NULL,
+	DepDelay smallint NULL,
+	Distance smallint NULL,
+	TaxiIn smallint NULL,
+	TaxiOut smallint NULL,
+	Cancelled smallint NULL,
+	CancellationCode varchar(4) NULL,
+	Diverted smallint NULL,
+	CarrierDelay varchar(4) NULL,
+	WeatherDelay varchar(4) NULL,
+	NASDelay varchar(4) NULL,
+	SecurityDelay varchar(4) NULL,
+	LateAircraftDelay varchar(4) NULL,
+	Error_Code varchar(100) NULL,
+	Error_Description varchar(500) NULL,
+	LoadTimestamp timestamp NOT NULL,
+	LoadUserId text NULL)
+
+
+
+
+
+Public Schema:
+CREATE TABLE public.fact_ontime
+(
+    fact_key serial,
+    fk_carrier_key integer,
+    fk_planekey integer,
+    fk_orgairportkey integer,
+    fk_destairportkey integer,
+    fk_datekey integer,
+    flight_year integer,
+    flightmonth integer,
+    dayofmonth integer,
+    dayofweek integer,
+    deptime integer,
+    crsdeptime integer,
+    arrtime integer,
+    crsarrtime integer,
+    uniquecarrier varchar(20) ,
+    flightnum integer,
+    tailnum varchar(20) ,
+    actualelapsedtime integer,
+    crselapsedtime integer,
+    airtime integer,
+    arrdelay integer,
+    depdelay integer,
+    origin varchar(20) ,
+    dest varchar(20) ,
+    distance integer,
+    taxiin integer,
+    taxiout integer,
+    cancelled integer DEFAULT 0,
+    cancellationcode varchar(20) ,
+    diverted integer DEFAULT 0,
+    carrierdelay varchar(20) ,
+    weatherdelay varchar(20),
+    nasdelay varchar(20) ,
+    securitydelay varchar(20) ,
+    lateaircraftdelay varchar(20) ,
+    loadtimestamp timestamp DEFAULT now(),
+    loaduserid text null ,
+    CONSTRAINT fact_key_primary PRIMARY KEY (fact_key)
+);
+
+
+Alter table public.Fact_FlightOnTime Add constraint Cancelled set  default 0;
+Alter table public.Fact_FlightOnTime Add constraint CancellationCode set  default ‘NA’;
+
+Alter table public.Fact_FlightOnTime Add constraint Diverted set  default 0;
+
+
+ALTER TABLE public.Fact_FlightOnTime  alter column LoadTimestamp  set DEFAULT (now() );
+
+
+ALTER STATEMENTS TO ADD DEFAULT CONSTRAINTS:
+ALTER TABLE Dim_destairport alter column LoadTimestamp  set DEFAULT (now() );
+ALTER TABLE Dim_Plane alter column LoadTimestamp set default (now());
+ALTER TABLE Dim_Plane alter column IssueDate set default '1900-01-01';
+ALTER TABLE Dim_Plane alter column Manufacturer set default 'NA';
+
+
+
+ALTER TABLE Dim_Plane alter column PlaneType set default 'NA';
+
+ALTER TABLE Dim_OrgAirport alter column LoadTimestamp  set DEFAULT (now() );
+
+ALTER TABLE Dim_Carrier alter column LoadTimestamp set default(now());
+
+ALTER TABLE Dim_Date alter column LoadTimeStamp set default (now());
+
+Alter to change the column type:
+alter table dim_carrier alter column loaduserid set data type text;
+alter table dim_plane alter column loaduserid set data type text;
+
+alter table dim_destairport alter column loaduserid set data type text;
+
+alter table dim_orgairport  alter column loaduserid set data type text;
+alter table dim_date  alter column loaduserid set data type text;
+
+alter to add constraints to fact table
+ALTER TABLE Fact_FlightOnTime alter column Cancelled  set  DEFAULT ((0)) 
+ALTER TABLE Fact_FlightOnTime alter column CancellationCode  set default ('NA') 
+ALTER TABLE Fact_FlightOnTime alter column Diverted set  DEFAULT ((0))
+ALTER TABLE Fact_FlightOnTime alter column LoadTimestamp set default (now())  
+ALTER TABLE error.Fact_FlightOnTime  alter column Cancelled  set  DEFAULT ((0)) 
+ALTER TABLE error.Fact_FlightOnTime alter column CancellationCode  set default ('NA') 
+ALTER TABLE error.Fact_FlightOnTime GO alter column Diverted set  DEFAULT ((0))
+ALTER TABLE error.Fact_FlightOnTime alter column LoadTimestamp set default (now())  
+
+
+
+
+
+STORE PROC TO LOAD DIM_DATE
+CREATE OR REPLACE PROCEDURE public.usp_loaddimdate(
+	strdt date,
+	enddt date)
+LANGUAGE 'plpgsql'
+
+AS $BODY$
+declare ctrDt date:= strdt;
+BEGIN
+  
+  create  table tempDt as
+ 	SELECT cast(to_char(now(), 'yyyymmdd') as int) as DateKey
+      ,current_date as FullDateAlternateKey
+      ,extract(dow from now())+1 as DayNumberOfWeek
+      ,TO_CHAR(now(), 'Day') as DayNameOfWeek
+      ,extract(day from now()) as DayNumberOfMonth
+      ,extract(DOY  from now())as DayNumberOfYear
+      ,extract(week  from now())+1 as WeekNumberOfYear
+      ,TO_CHAR(now(), 'month') as MonthName
+      ,extract(month  from now()) as MonthNumberOfYear
+      ,extract(quarter  from now()) as CalendarQuarter
+      ,extract(month  from now()) as CalendarSemester
+      ,extract(year  from now()) as CalendarYear
+      ,now() as LoadTimestamp
+      ,'SQLServer' as LoadUserId;
+	  
+	 truncate table tempDt;
+	 	  while (ctrDt <=endDt) LOOP
+     		INSERT into tempDt
+SELECT cast(to_char(ctrDt, 'yyyymmdd') as int) as DateKey
+      ,cast(to_char(ctrDt, 'yyyymmdd') as date) as FullDateAlternateKey
+      ,extract(dow from ctrDt) as DayNumberOfWeek
+      ,TO_CHAR(ctrDt, 'Day') as DayNameOfWeek
+      ,extract(day from ctrDt) as DayNumberOfMonth
+      ,extract(DOY  from ctrDt)as DayNumberOfYear
+      ,extract(week  from ctrDt)+1 as WeekNumberOfYear
+      ,TO_CHAR(ctrDt, 'month') as MonthName
+      ,extract(month  from ctrDt) as MonthNumberOfYear
+      ,extract(quarter  from ctrDt) as CalendarQuarter
+      ,extract(month  from ctrDt) as CalendarSemester
+      ,extract(year  from ctrDt) as CalendarYear
+      ,now() as LoadTimestamp
+      ,'SQLServer' as LoadUserId;
+	  	 
+		 ctrDt :=  ctrDt + INTERVAL '1 day';
+	 
+   END LOOP ; 
+	INSERT INTO public.dim_date select * from tempDt;
+		DROP TABLE tempDt;  
+COMMIT;
+END;
+$BODY$;
+call usp_LoadDimDate('1900-01-01', '2020-12-31');
+
+select * from dim_date;
+
+
+
