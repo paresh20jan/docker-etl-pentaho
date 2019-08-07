@@ -11,7 +11,7 @@
     <parameters>
       <parameter>
         <name>csv_file_path</name>
-        <default_value>/home/pareshra/data/Master/</default_value>
+        <default_value>opt/data-integration/data</default_value>
         <description/>
       </parameter>
       <parameter>
