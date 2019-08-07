@@ -338,7 +338,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>/home/pareshra/docker-etl-pentaho/provision/build/etl/trans/Loading_Carriers_Staging.ktr</filename>
+      <filename>./samples/transformations/Loading_Carriers_Staging.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
