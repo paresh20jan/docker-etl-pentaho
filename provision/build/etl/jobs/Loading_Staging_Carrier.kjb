@@ -18,7 +18,7 @@
     </parameter>
     <parameter>
       <name>file_name</name>
-      <default_value>carriers.csv</default_value>
+      <default_value>Carriers.csv</default_value>
       <description/>
     </parameter>
   </parameters>
@@ -333,7 +333,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>./samples/transformations/Loading_Carriers_Staging.ktr</filename>
+      <filename>D:\docker-etl-pentaho\provision\build\etl\trans\Loading_Carriers_Staging.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -356,6 +356,16 @@
       <run_configuration>Pentaho local</run_configuration>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>csv_file_path</name>
+          <stream_name/>
+          <value/>
+        </parameter>
+        <parameter>
+          <name>file_name</name>
+          <stream_name/>
+          <value/>
+        </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
