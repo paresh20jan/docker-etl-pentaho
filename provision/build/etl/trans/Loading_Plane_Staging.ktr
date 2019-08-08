@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>LoadingPlane</name>
+    <name>Loading_StagingPlane</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -447,7 +447,7 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Postgres</name>
+    <name>PostgresDev</name>
     <server>172.27.56.156</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
@@ -658,7 +658,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>Postgres</connection>
+    <connection>PostgresDev</connection>
     <schema>public</schema>
     <table>stg_planes</table>
     <commit>1000</commit>
