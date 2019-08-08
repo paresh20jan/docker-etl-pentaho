@@ -11,7 +11,7 @@
     <parameters>
       <parameter>
         <name>csv_file_path</name>
-        <default_value>/home/pareshra/data/Master/</default_value>
+        <default_value>./data/</default_value>
         <description/>
       </parameter>
       <parameter>
@@ -525,7 +525,6 @@
         <trim_type>none</trim_type>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -569,7 +568,6 @@
     <return_field/>
     <fields>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -597,15 +595,12 @@
     <fields>
       <field>
         <name>state_name</name>
-        <rename/>
       </field>
       <field>
         <name>state_code</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -624,5 +619,4 @@
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
-  <attributes/>
 </transformation>

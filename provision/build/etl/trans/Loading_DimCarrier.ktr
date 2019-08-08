@@ -437,7 +437,7 @@
   </notepads>
   <connection>
     <name>PostgresDev</name>
-    <server>localhost</server>
+    <server>172.27.56.156</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>airline_staging</database>
@@ -449,14 +449,46 @@
     <index_tablespace/>
     <attributes>
       <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
         <code>PORT_NUMBER</code>
         <attribute>5432</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
       </attribute>
     </attributes>
   </connection>
   <connection>
     <name>PostgresProd</name>
-    <server>localhost</server>
+    <server>172.27.56.156</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>airline_dw</database>
@@ -468,8 +500,40 @@
     <index_tablespace/>
     <attributes>
       <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
         <code>PORT_NUMBER</code>
         <attribute>5432</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
       </attribute>
     </attributes>
   </connection>
@@ -528,7 +592,6 @@
         <stream_name>carriercode</stream_name>
       </field>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -564,7 +627,6 @@
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -628,7 +690,6 @@ UNIQUE USING INDEX UQ_CarrierKey;
     <read_field/>
     <arguments>
     </arguments>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -664,7 +725,6 @@ FROM stg_carriers
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
-    <attributes/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -683,5 +743,4 @@ FROM stg_carriers
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
-  <attributes/>
 </transformation>
