@@ -318,7 +318,7 @@
       <yloc>64</yloc>
     </entry>
     <entry>
-      <name>Stg_Carriers</name>
+      <name>Steps_Stg_Carriers</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
@@ -357,7 +357,7 @@
   <hops>
     <hop>
       <from>START</from>
-      <to>Stg_Carriers</to>
+      <to>Steps_Stg_Carriers</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -365,7 +365,7 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Stg_Carriers</from>
+      <from>Steps_Stg_Carriers</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
