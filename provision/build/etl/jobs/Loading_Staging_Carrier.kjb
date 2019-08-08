@@ -11,17 +11,7 @@
   <modified_user>-</modified_user>
   <modified_date>2019/07/22 17:30:14.816</modified_date>
   <parameters>
-    <parameter>
-      <name>csv_file_path</name>
-      <default_value>../data/Master/</default_value>
-      <description/>
-    </parameter>
-    <parameter>
-      <name>file_name</name>
-      <default_value>initial_state_code.csv</default_value>
-      <description/>
-    </parameter>
-  </parameters>
+    </parameters>
   <slaveservers>
     </slaveservers>
   <job-log-table>
