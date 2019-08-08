@@ -13,7 +13,7 @@
   <parameters>
     <parameter>
       <name>csv_file_path</name>
-      <default_value>../data/Master/</default_value>
+      <default_value>./data/</default_value>
       <description/>
     </parameter>
     <parameter>
@@ -323,7 +323,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>./samples/transformations/Loading_Airports_Staging.ktr</filename>
+      <filename>D:\docker-etl-pentaho\provision\build\etl\trans\Loading_Airports_Staging.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -346,6 +346,16 @@
       <run_configuration>Pentaho local</run_configuration>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
+        <parameter>
+          <name>csv_file_path</name>
+          <stream_name/>
+          <value/>
+        </parameter>
+        <parameter>
+          <name>file_name</name>
+          <stream_name/>
+          <value/>
+        </parameter>
       </parameters>
       <parallel>N</parallel>
       <draw>Y</draw>
@@ -360,8 +370,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>416</xloc>
-      <yloc>48</yloc>
+      <xloc>400</xloc>
+      <yloc>64</yloc>
     </entry>
   </entries>
   <hops>
