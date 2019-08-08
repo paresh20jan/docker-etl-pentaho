@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>LoadingStageAirline</name>
+    <name>LoadingStageAirline_Airports</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -447,8 +447,8 @@
   <notepads>
   </notepads>
   <connection>
-    <name>Postgres</name>
-    <server>localhost</server>
+    <name>PostgresDev</name>
+    <server>172.27.56.156</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>airline_staging</database>
@@ -460,8 +460,40 @@
     <index_tablespace/>
     <attributes>
       <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
         <code>PORT_NUMBER</code>
         <attribute>5432</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
       </attribute>
     </attributes>
   </connection>
@@ -604,7 +636,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>Postgres</connection>
+    <connection>PostgresDev</connection>
     <schema>public</schema>
     <table>stg_airports</table>
     <commit>1000</commit>
