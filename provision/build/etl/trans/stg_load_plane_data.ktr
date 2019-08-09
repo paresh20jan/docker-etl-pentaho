@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>stg_load_plane_date</name>
+    <name>stg_load_plane_data</name>
     <description/>
     <extended_description/>
     <trans_version/>
