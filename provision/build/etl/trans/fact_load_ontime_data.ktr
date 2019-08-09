@@ -830,30 +830,30 @@
     </partitioning>
     <connection>PostgresDev</connection>
     <sql>SELECT
-  cast(year_c as int) flight_year
-, cast(month_c as int) as flight_month
-, cast(dayofmonth as int) as "dayofmonth"
-, cast(dayofweek as int) as "dayofweek"
-, cast(deptime as int) as "depttime"
-, cast(crsdeptime as int) as "crsdepttime"
-, cast(arrtime as int) as "arrtime"
-, cast(crsarrtime as int) as "crsarrtime"
+  cast(case when year_c='NA' then null else year_c end as int) flight_year
+, cast(case when month_c='NA' then null else month_c end as int) flight_month
+, cast(case when dayofmonth='NA' then null else dayofmonth end as int) as "dayofmonth"
+, cast(case when dayofweek='NA' then null else dayofweek end as int) as "dayofweek"
+, cast(case when deptime='NA' then null else deptime end as int) as "depttime"
+, cast(case when crsdeptime='NA' then null else crsdeptime end as int) as "crsdepttime"
+, cast(case when arrtime='NA' then null else arrtime end as int) as "arrtime"
+, cast(case when crsarrtime='NA' then null else crsarrtime end as int) as "crsarrtime"
 , uniquecarrier
-, cast(flightnum as int) as "flightnum"
+, cast(case when flightnum='NA' then null else flightnum end as int) as "flightnum"
 , tailnum
-, cast(actualelapsedtime as int) as "actualelapsedtime"
-, cast(crselapsedtime as int) as "crselapsedtime"
-, cast(airtime as int) as "airtime"
-, cast(arrdelay as int) as "arrdelay"
-, cast(depdelay as int) as "depdelay"
+, cast(case when actualelapsedtime='NA' then null else actualelapsedtime end as int) as "actualelapsedtime"
+, cast(case when crselapsedtime='NA' then null else crselapsedtime end as int) as "crselapsedtime"
+, cast(case when airtime='NA' then null else airtime end as int) as "airtime"
+, cast(case when arrdelay='NA' then null else arrdelay end as int) as "arrdelay"
+, cast(case when depdelay='NA' then null else depdelay end as int) as "depdelay"
 , origin
 , dest
-, cast(distance as int) as "distance"
-, cast(taxiin as int) as "taxiin"
-, cast(taxiout as int) as "taxiout"
-, cast(cancelled as int) as "cancelled"
+, cast(case when distance='NA' then null else distance end as int) as "distance"
+, cast(case when taxiin='NA' then null else taxiin end as int) as "taxiin"
+, cast(case when taxiout='NA' then null else taxiout end as int) as "taxiout"
+, cast(case when cancelled='NA' then null else cancelled end as int) as "cancelled"
 , cancellationcode
-, cast(diverted as int) as "diverted"
+, cast(case when diverted='NA' then null else diverted end as int) as "diverted"
 ,carrierdelay
 ,weatherdelay
 ,nasdelay
