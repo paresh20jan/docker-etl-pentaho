@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>Dim_Planes</name>
+    <name>stg_load_airport_data</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -9,6 +9,16 @@
     <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
+      <parameter>
+        <name>csv_file_path</name>
+        <default_value>./data/</default_value>
+        <description/>
+      </parameter>
+      <parameter>
+        <name>file_name</name>
+        <default_value>airports.csv</default_value>
+        <description/>
+      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -428,9 +438,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2019/07/02 15:33:07.365</created_date>
+    <created_date>2019/06/25 17:49:02.243</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2019/07/02 15:33:07.365</modified_date>
+    <modified_date>2019/06/25 17:49:02.243</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -487,209 +497,119 @@
       </attribute>
     </attributes>
   </connection>
-  <connection>
-    <name>PostgresProd</name>
-    <server>172.27.56.156</server>
-    <type>POSTGRESQL</type>
-    <access>Native</access>
-    <database>airline_dw</database>
-    <port>5432</port>
-    <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79aa7fdd99aac8</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>5432</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
-      <from>Table input</from>
+      <from>CSV file input</from>
       <to>Table output Mapping</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Table output Mapping</from>
-      <to>Plane</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Execute SQL script</from>
-      <to>Table input</to>
+      <to>Table output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Execute SQL script</name>
-    <type>ExecSQL</type>
+    <name>CSV file input</name>
+    <type>CsvInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>PostgresProd</connection>
-    <execute_each_row>N</execute_each_row>
-    <single_statement>Y</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>drop table if exists dim_plane;
-
-CREATE TABLE Dim_Plane(
-	PlaneKey serial,
-	TailNum varchar(10) NOT NULL,
-	PlaneType varchar(20) NULL,
-	Manufacturer varchar(50) NULL,
-	IssueDate date NULL,
-	Model varchar(20) NULL,
-	Status varchar(20) NULL,
-	AircraftType varchar(50) NULL,
-	EngineType varchar(15) NULL,
-	MfgYear varchar(4) NULL,
-	LoadTimestamp timestamp default now(),
-	LoadUserId text NULL,
- CONSTRAINT PK_PlaneKey PRIMARY KEY  
-(
-	PlaneKey 
-)
-);
-
-CREATE UNIQUE INDEX CONCURRENTLY UQ_PlaneKey
-ON dim_plane (PlaneKey);
-
-
-ALTER TABLE dim_plane
-ADD CONSTRAINT uq_planekey 
-UNIQUE USING INDEX UQ_PlaneKey;
-
-
-
-
-
-
-</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-    </arguments>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>384</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Plane</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>PostgresProd</connection>
-    <schema/>
-    <table>dim_plane</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
+    <filename>${csv_file_path}${file_name}</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>,</separator>
+    <enclosure>"</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>Y</newline_possible>
+    <encoding/>
     <fields>
       <field>
-        <column_name>tailnum</column_name>
-        <stream_name>tailnum</stream_name>
+        <name>iata</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
       </field>
       <field>
-        <column_name>planetype</column_name>
-        <stream_name>planetype</stream_name>
+        <name>airport</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
       </field>
       <field>
-        <column_name>manufacturer</column_name>
-        <stream_name>manufacturer</stream_name>
+        <name>city</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
       </field>
       <field>
-        <column_name>issuedate</column_name>
-        <stream_name>issuedate</stream_name>
+        <name>state</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
       </field>
       <field>
-        <column_name>model</column_name>
-        <stream_name>model</stream_name>
+        <name>country</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
       </field>
       <field>
-        <column_name>status</column_name>
-        <stream_name>status</stream_name>
+        <name>lat</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
       </field>
       <field>
-        <column_name>aircrafttype</column_name>
-        <stream_name>aircrafttype</stream_name>
-      </field>
-      <field>
-        <column_name>enginetype</column_name>
-        <stream_name>enginetype</stream_name>
-      </field>
-      <field>
-        <column_name>mfgyear</column_name>
-        <stream_name>mfgyear</stream_name>
+        <name>long</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
       </field>
     </fields>
     <cluster_schema/>
@@ -700,14 +620,14 @@ UNIQUE USING INDEX UQ_PlaneKey;
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>400</yloc>
+      <xloc>80</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Table input</name>
-    <type>TableInput</type>
+    <name>Table output</name>
+    <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -717,23 +637,24 @@ UNIQUE USING INDEX UQ_PlaneKey;
       <schema_name/>
     </partitioning>
     <connection>PostgresDev</connection>
-    <sql>SELECT
-  tailnum
-, "type"
-, manufacturer
-, issue_date
-, model
-, status
-, aircraft_type
-, engine_type
-, "year"
-FROM public.stg_planes
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
+    <schema>public</schema>
+    <table>stg_airports</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>N</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+    </fields>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -742,8 +663,8 @@ FROM public.stg_planes
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>208</yloc>
+      <xloc>288</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -760,36 +681,32 @@ FROM public.stg_planes
     </partitioning>
     <fields>
       <field>
-        <name>tailnum</name>
+        <name>iata</name>
+        <rename>iata</rename>
       </field>
       <field>
-        <name>type</name>
-        <rename>planetype</rename>
+        <name>airport</name>
+        <rename>airport</rename>
       </field>
       <field>
-        <name>manufacturer</name>
+        <name>city</name>
+        <rename>city</rename>
       </field>
       <field>
-        <name>issue_date</name>
-        <rename>issuedate</rename>
+        <name>state</name>
+        <rename>state</rename>
       </field>
       <field>
-        <name>model</name>
+        <name>country</name>
+        <rename>country</rename>
       </field>
       <field>
-        <name>status</name>
+        <name>lat</name>
+        <rename>lat</rename>
       </field>
       <field>
-        <name>aircraft_type</name>
-        <rename>aircrafttype</rename>
-      </field>
-      <field>
-        <name>engine_type</name>
-        <rename>enginetype</rename>
-      </field>
-      <field>
-        <name>year</name>
-        <rename>mfgyear</rename>
+        <name>long</name>
+        <rename>long</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -801,8 +718,8 @@ FROM public.stg_planes
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>304</yloc>
+      <xloc>208</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

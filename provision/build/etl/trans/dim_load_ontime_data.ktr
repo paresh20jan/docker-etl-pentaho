@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>Loading_DimCarrier</name>
+    <name>dim_load_ontime_data</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -427,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2019/07/22 17:39:49.042</created_date>
+    <created_date>2019/07/12 17:06:50.149</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2019/07/22 17:39:49.042</modified_date>
+    <modified_date>2019/07/12 17:06:50.149</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -539,23 +540,347 @@
   </connection>
   <order>
     <hop>
-      <from>DimCarriers Mapping</from>
-      <to>DimCarriers</to>
+      <from>Table input</from>
+      <to>PlaneLookUp</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>StageCarriers</from>
-      <to>DimCarriers Mapping</to>
+      <from>PlaneLookUp</from>
+      <to>CarrierLookUp</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Execute SQL script</from>
-      <to>StageCarriers</to>
+      <from>CarrierLookUp</from>
+      <to>OrgAirport</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>OrgAirport</from>
+      <to>DestAirport</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>DestAirport</from>
+      <to>DateLookUp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>DateLookUp</from>
+      <to>Table output</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>DimCarriers</name>
+    <name>CarrierLookUp</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>PostgresProd</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>dim_carrier</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>uniquecarrier</name>
+        <field>carriercode</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>carrierkey</name>
+        <rename>carrierkey</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>257</xloc>
+      <yloc>306</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>DateLookUp</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>PostgresProd</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>public</schema>
+      <table>dim_date</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>flight_year</name>
+        <field>calendaryear</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>flight_month</name>
+        <field>monthnumberofyear</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>dayofmonth</name>
+        <field>daynumberofmonth</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>datekey</name>
+        <rename>datekey</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>641</xloc>
+      <yloc>306</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>DestAirport</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>PostgresProd</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>dim_destairport</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>dest</name>
+        <field>iata</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>destairportkey</name>
+        <rename>destairportkey</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>497</xloc>
+      <yloc>306</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>OrgAirport</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>PostgresProd</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>dim_orgairport</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>origin</name>
+        <field>iata</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>orgairportkey</name>
+        <rename>orgairportkey</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>385</xloc>
+      <yloc>306</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>PlaneLookUp</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>PostgresProd</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>dim_plane</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>tailnum</name>
+        <field>tailnum</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>planekey</name>
+        <rename>planekey</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>129</xloc>
+      <yloc>290</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table input</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>PostgresDev</connection>
+    <sql>SELECT
+  cast(year_c as int) flight_year
+, cast(month_c as int) as flight_month
+, cast(dayofmonth as int) as "dayofmonth"
+, cast(dayofweek as int) as "dayofweek"
+, cast(deptime as int) as "depttime"
+, cast(crsdeptime as int) as "crsdepttime"
+, cast(arrtime as int) as "arrtime"
+, cast(crsarrtime as int) as "crsarrtime"
+, uniquecarrier
+, cast(flightnum as int) as "flightnum"
+, tailnum
+, cast(actualelapsedtime as int) as "actualelapsedtime"
+, cast(crselapsedtime as int) as "crselapsedtime"
+, cast(airtime as int) as "airtime"
+, cast(arrdelay as int) as "arrdelay"
+, cast(depdelay as int) as "depdelay"
+, origin
+, dest
+, cast(distance as int) as "distance"
+, cast(taxiin as int) as "taxiin"
+, cast(taxiout as int) as "taxiout"
+, cast(cancelled as int) as "cancelled"
+, cancellationcode
+, cast(diverted as int) as "diverted"
+,carrierdelay
+,weatherdelay
+,nasdelay
+,securitydelay
+,lateaircraftdelay
+FROM "public".stg_ontime
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>112</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Table output</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -567,7 +892,7 @@
     </partitioning>
     <connection>PostgresProd</connection>
     <schema/>
-    <table>dim_carrier</table>
+    <table>fact_ontime</table>
     <commit>1000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
@@ -584,12 +909,140 @@
     <return_field/>
     <fields>
       <field>
-        <column_name>carrierdescription</column_name>
-        <stream_name>carrierdescription</stream_name>
+        <column_name>flight_year</column_name>
+        <stream_name>flight_year</stream_name>
       </field>
       <field>
-        <column_name>carriercode</column_name>
-        <stream_name>carriercode</stream_name>
+        <column_name>flightmonth</column_name>
+        <stream_name>flight_month</stream_name>
+      </field>
+      <field>
+        <column_name>dayofmonth</column_name>
+        <stream_name>dayofmonth</stream_name>
+      </field>
+      <field>
+        <column_name>dayofweek</column_name>
+        <stream_name>dayofweek</stream_name>
+      </field>
+      <field>
+        <column_name>deptime</column_name>
+        <stream_name>depttime</stream_name>
+      </field>
+      <field>
+        <column_name>crsdeptime</column_name>
+        <stream_name>crsdepttime</stream_name>
+      </field>
+      <field>
+        <column_name>arrtime</column_name>
+        <stream_name>arrtime</stream_name>
+      </field>
+      <field>
+        <column_name>crsarrtime</column_name>
+        <stream_name>crsarrtime</stream_name>
+      </field>
+      <field>
+        <column_name>uniquecarrier</column_name>
+        <stream_name>uniquecarrier</stream_name>
+      </field>
+      <field>
+        <column_name>flightnum</column_name>
+        <stream_name>flightnum</stream_name>
+      </field>
+      <field>
+        <column_name>tailnum</column_name>
+        <stream_name>tailnum</stream_name>
+      </field>
+      <field>
+        <column_name>actualelapsedtime</column_name>
+        <stream_name>actualelapsedtime</stream_name>
+      </field>
+      <field>
+        <column_name>crselapsedtime</column_name>
+        <stream_name>crselapsedtime</stream_name>
+      </field>
+      <field>
+        <column_name>airtime</column_name>
+        <stream_name>airtime</stream_name>
+      </field>
+      <field>
+        <column_name>arrdelay</column_name>
+        <stream_name>arrdelay</stream_name>
+      </field>
+      <field>
+        <column_name>depdelay</column_name>
+        <stream_name>depdelay</stream_name>
+      </field>
+      <field>
+        <column_name>origin</column_name>
+        <stream_name>origin</stream_name>
+      </field>
+      <field>
+        <column_name>dest</column_name>
+        <stream_name>dest</stream_name>
+      </field>
+      <field>
+        <column_name>distance</column_name>
+        <stream_name>distance</stream_name>
+      </field>
+      <field>
+        <column_name>taxiin</column_name>
+        <stream_name>taxiin</stream_name>
+      </field>
+      <field>
+        <column_name>taxiout</column_name>
+        <stream_name>taxiout</stream_name>
+      </field>
+      <field>
+        <column_name>cancelled</column_name>
+        <stream_name>cancelled</stream_name>
+      </field>
+      <field>
+        <column_name>cancellationcode</column_name>
+        <stream_name>cancellationcode</stream_name>
+      </field>
+      <field>
+        <column_name>diverted</column_name>
+        <stream_name>diverted</stream_name>
+      </field>
+      <field>
+        <column_name>carrierdelay</column_name>
+        <stream_name>carrierdelay</stream_name>
+      </field>
+      <field>
+        <column_name>weatherdelay</column_name>
+        <stream_name>weatherdelay</stream_name>
+      </field>
+      <field>
+        <column_name>nasdelay</column_name>
+        <stream_name>nasdelay</stream_name>
+      </field>
+      <field>
+        <column_name>securitydelay</column_name>
+        <stream_name>securitydelay</stream_name>
+      </field>
+      <field>
+        <column_name>lateaircraftdelay</column_name>
+        <stream_name>lateaircraftdelay</stream_name>
+      </field>
+      <field>
+        <column_name>fk_planekey</column_name>
+        <stream_name>planekey</stream_name>
+      </field>
+      <field>
+        <column_name>fk_carrier_key</column_name>
+        <stream_name>carrierkey</stream_name>
+      </field>
+      <field>
+        <column_name>fk_orgairportkey</column_name>
+        <stream_name>orgairportkey</stream_name>
+      </field>
+      <field>
+        <column_name>fk_destairportkey</column_name>
+        <stream_name>destairportkey</stream_name>
+      </field>
+      <field>
+        <column_name>fk_datekey</column_name>
+        <stream_name>datekey</stream_name>
       </field>
     </fields>
     <cluster_schema/>
@@ -600,141 +1053,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>470</xloc>
-      <yloc>469</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>DimCarriers Mapping</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>description</name>
-        <rename>carrierdescription</rename>
-      </field>
-      <field>
-        <name>code</name>
-        <rename>carriercode</rename>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>470</xloc>
-      <yloc>357</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Execute SQL script</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>PostgresProd</connection>
-    <execute_each_row>N</execute_each_row>
-    <single_statement>Y</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>
-drop table dim_carrier;
-
-CREATE TABLE Dim_Carrier(
-	CarrierKey serial,
-	CarrierCode varchar(50) NULL,
-	CarrierDescription varchar(200) NULL,
-	LoadTimestamp timestamp default now(),
-	LoadUserId text NULL,
- CONSTRAINT PK_CarrierKey PRIMARY KEY 
-(
-	CarrierKey 
-)
-) ;
-
-CREATE UNIQUE INDEX CONCURRENTLY UQ_CarrierKey 
-ON DIM_CARRIER (CarrierKey);
-
-ALTER TABLE dim_carrier 
-ADD CONSTRAINT uq_carrierkey 
-UNIQUE USING INDEX UQ_CarrierKey;
-
-
-
-
-
-</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-    </arguments>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>464</xloc>
-      <yloc>144</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>StageCarriers</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>PostgresDev</connection>
-    <sql>SELECT
-  description
-, code
-FROM stg_carriers
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>464</xloc>
-      <yloc>256</yloc>
+      <xloc>769</xloc>
+      <yloc>306</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

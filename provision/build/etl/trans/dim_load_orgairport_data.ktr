@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>DimDestAirport</name>
+    <name>dim_load_orgairport_data</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -427,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2019/07/15 18:27:39.046</created_date>
+    <created_date>2019/07/05 14:54:38.320</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2019/07/15 18:27:39.046</modified_date>
+    <modified_date>2019/07/05 14:54:38.320</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -556,7 +557,7 @@
       <schema_name/>
     </partitioning>
     <schema>public</schema>
-    <table>dim_destairport</table>
+    <table>dim_orgairport</table>
     <connection>PostgresProd</connection>
     <commit>100</commit>
     <update>Y</update>
@@ -601,7 +602,7 @@
         <update>Insert</update>
       </field>
       <return>
-        <name>destairportkey</name>
+        <name>orgairportkey</name>
         <rename/>
         <creation_method>tablemax</creation_method>
         <use_autoinc>N</use_autoinc>
@@ -609,7 +610,7 @@
       </return>
     </fields>
     <sequence/>
-    <min_year>1900</min_year>
+    <min_year>2019</min_year>
     <max_year>2091</max_year>
     <cache_size>0</cache_size>
     <preload_cache>N</preload_cache>
@@ -625,8 +626,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>96</yloc>
+      <xloc>288</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -665,8 +666,8 @@ FROM stg_airports
       </output>
     </remotesteps>
     <GUI>
-      <xloc>183</xloc>
-      <yloc>101</yloc>
+      <xloc>48</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
