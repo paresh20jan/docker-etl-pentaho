@@ -11,7 +11,7 @@
     <parameters>
       <parameter>
         <name>csv_file_path</name>
-        <default_value>./data_1/</default_value>
+        <default_value>./data/</default_value>
         <description/>
       </parameter>
       <parameter>
