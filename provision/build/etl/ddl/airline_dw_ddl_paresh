@@ -1,0 +1,211 @@
+-- Table: public.dim_carrier
+
+-- DROP TABLE public.dim_carrier;
+
+CREATE TABLE public.dim_carrier
+(
+  carrierkey integer NOT NULL DEFAULT nextval('dim_carrier_carrierkey_seq'::regclass),
+  carriercode character varying(50),
+  carrierdescription character varying(200),
+  loadtimestamp timestamp without time zone DEFAULT now(),
+  loaduserid text,
+  CONSTRAINT pk_carrierkey PRIMARY KEY (carrierkey),
+  CONSTRAINT uq_carrierkey UNIQUE (carrierkey)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.dim_carrier
+  OWNER TO postgres;
+
+
+
+-- Table: public.dim_date
+
+-- DROP TABLE public.dim_date;
+
+CREATE TABLE public.dim_date
+(
+  datekey integer NOT NULL DEFAULT nextval('dim_date_datekey_seq'::regclass),
+  fulldatealternatekey date NOT NULL,
+  daynumberofweek smallint NOT NULL,
+  daynameofweek character varying(10) NOT NULL,
+  daynumberofmonth smallint NOT NULL,
+  daynumberofyear smallint NOT NULL,
+  weeknumberofyear smallint NOT NULL,
+  monthname character varying(10) NOT NULL,
+  monthnumberofyear smallint NOT NULL,
+  calendarquarter smallint NOT NULL,
+  calendarsemester smallint NOT NULL,
+  calendaryear smallint NOT NULL,
+  loadtimestamp timestamp without time zone NOT NULL DEFAULT now(),
+  loaduserid text,
+  CONSTRAINT pk_datekey PRIMARY KEY (datekey)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.dim_date
+  OWNER TO postgres;
+
+
+-- Table: public.dim_destairport
+
+-- DROP TABLE public.dim_destairport;
+
+CREATE TABLE public.dim_destairport
+(
+  destairportkey integer NOT NULL DEFAULT nextval('dim_destairport_destairportkey_seq'::regclass),
+  iata character varying(5),
+  airportname character varying(50),
+  city character varying(50),
+  state character varying(50),
+  country character varying(50),
+  lattitude character varying(50),
+  longitude character varying(50),
+  loadtimestamp timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+  loaduserid character varying(25),
+  version integer,
+  date_from date DEFAULT CURRENT_DATE,
+  date_to date DEFAULT CURRENT_DATE,
+  CONSTRAINT pk_destairportkey PRIMARY KEY (destairportkey)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.dim_destairport
+  OWNER TO postgres;
+
+
+
+-- Table: public.dim_orgairport
+
+-- DROP TABLE public.dim_orgairport;
+
+CREATE TABLE public.dim_orgairport
+(
+  orgairportkey integer NOT NULL DEFAULT nextval('dim_orgairport_orgairportkey_seq'::regclass),
+  iata character varying(5),
+  airportname character varying(50),
+  city character varying(50),
+  state character varying(50),
+  country character varying(50),
+  lattitude character varying(50),
+  longitude character varying(50),
+  loadtimestamp timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+  loaduserid character varying(25),
+  version integer,
+  date_from date DEFAULT CURRENT_DATE,
+  date_to date DEFAULT CURRENT_DATE,
+  CONSTRAINT pk_orgairportkey PRIMARY KEY (orgairportkey),
+  CONSTRAINT uq_orgairportkey UNIQUE (orgairportkey)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.dim_orgairport
+  OWNER TO postgres;
+
+
+-- Table: public.dim_plane
+
+-- DROP TABLE public.dim_plane;
+
+CREATE TABLE public.dim_plane
+(
+  planekey integer NOT NULL DEFAULT nextval('dim_plane_planekey_seq'::regclass),
+  tailnum character varying(10) NOT NULL,
+  planetype character varying(20),
+  manufacturer character varying(50),
+  issuedate date,
+  model character varying(20),
+  status character varying(20),
+  aircrafttype character varying(50),
+  enginetype character varying(15),
+  mfgyear character varying(4),
+  loadtimestamp timestamp without time zone DEFAULT now(),
+  loaduserid text,
+  CONSTRAINT pk_planekey PRIMARY KEY (planekey),
+  CONSTRAINT uq_planekey UNIQUE (planekey)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.dim_plane
+  OWNER TO postgres;
+
+
+-- Table: public.fact_ontime
+
+-- DROP TABLE public.fact_ontime;
+
+CREATE TABLE public.fact_ontime
+(
+  fact_key integer NOT NULL DEFAULT nextval('fact_ontime_fact_key_seq'::regclass),
+  fk_carrier_key integer,
+  fk_planekey integer,
+  fk_orgairportkey integer,
+  fk_destairportkey integer,
+  fk_datekey integer,
+  flight_year integer,
+  flightmonth integer,
+  dayofmonth integer,
+  dayofweek integer,
+  deptime integer,
+  crsdeptime integer,
+  arrtime integer,
+  crsarrtime integer,
+  uniquecarrier character varying(20),
+  flightnum integer,
+  tailnum character varying(20),
+  actualelapsedtime integer,
+  crselapsedtime integer,
+  airtime integer,
+  arrdelay integer,
+  depdelay integer,
+  origin character varying(20),
+  dest character varying(20),
+  distance integer,
+  taxiin integer,
+  taxiout integer,
+  cancelled integer DEFAULT 0,
+  cancellationcode character varying(20),
+  diverted integer DEFAULT 0,
+  carrierdelay character varying(20),
+  weatherdelay character varying(20),
+  nasdelay character varying(20),
+  securitydelay character varying(20),
+  lateaircraftdelay character varying(20),
+  loadtimestamp timestamp without time zone DEFAULT now(),
+  loaduserid text,
+  CONSTRAINT fact_key_primary PRIMARY KEY (fact_key)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.fact_ontime
+  OWNER TO postgres;
+
+
+-- Table: public.fact_weather
+
+-- DROP TABLE public.fact_weather;
+
+CREATE TABLE public.fact_weather
+(
+  weatherkey integer NOT NULL DEFAULT nextval('fact_weather_seq'::regclass),
+  datekey integer NOT NULL,
+  monitorstarthour character varying(4),
+  monitorendhour character varying(4),
+  CONSTRAINT pk_weatherkey PRIMARY KEY (weatherkey),
+  CONSTRAINT uq_weather UNIQUE (weatherkey, datekey)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.fact_weather
+  OWNER TO postgres;
+
+
+
+

@@ -1,0 +1,118 @@
+-- Table: public.stg_airports
+
+-- DROP TABLE public.stg_airports;
+
+CREATE TABLE public.stg_airports
+(
+  iata character varying(50),
+  airport character varying(50),
+  city character varying(50),
+  state character varying(50),
+  country character varying(50),
+  lat character varying(50),
+  "long" character varying(50)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.stg_airports
+  OWNER TO postgres;
+
+
+-- Table: public.stg_carriers
+
+-- DROP TABLE public.stg_carriers;
+
+CREATE TABLE public.stg_carriers
+(
+  code character varying(50),
+  description character varying(200)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.stg_carriers
+  OWNER TO postgres;
+
+
+-- Table: public.stg_ontime
+
+-- DROP TABLE public.stg_ontime;
+
+CREATE TABLE public.stg_ontime
+(
+  year_c character varying(50),
+  month_c character varying(50),
+  dayofmonth character varying(50),
+  dayofweek character varying(50),
+  deptime character varying(50),
+  crsdeptime character varying(50),
+  arrtime character varying(50),
+  crsarrtime character varying(50),
+  uniquecarrier character varying(50),
+  flightnum character varying(50),
+  tailnum character varying(50),
+  actualelapsedtime character varying(50),
+  crselapsedtime character varying(50),
+  airtime character varying(50),
+  arrdelay character varying(50),
+  depdelay character varying(50),
+  origin character varying(50),
+  dest character varying(50),
+  distance character varying(50),
+  taxiin character varying(50),
+  taxiout character varying(50),
+  cancelled character varying(50),
+  cancellationcode character varying(50),
+  diverted character varying(50),
+  carrierdelay character varying(50),
+  weatherdelay character varying(50),
+  nasdelay character varying(50),
+  securitydelay character varying(50),
+  lateaircraftdelay character varying(50)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.stg_ontime
+  OWNER TO postgres;
+
+
+-- Table: public.stg_planes
+
+-- DROP TABLE public.stg_planes;
+
+CREATE TABLE public.stg_planes
+(
+  tailnum character varying(50),
+  type character varying(50),
+  manufacturer character varying(50),
+  issue_date character varying(50),
+  model character varying(50),
+  status character varying(50),
+  aircraft_type character varying(50),
+  engine_type character varying(50),
+  year character varying(50)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.stg_planes
+  OWNER TO postgres;
+
+
+-- Table: public.stg_states
+
+-- DROP TABLE public.stg_states;
+
+CREATE TABLE public.stg_states
+(
+  state_name character varying(14),
+  state_code character varying(2)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.stg_states
+  OWNER TO postgres;
+
