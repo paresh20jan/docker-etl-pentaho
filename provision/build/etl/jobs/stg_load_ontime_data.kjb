@@ -323,7 +323,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>D:\docker-etl-pentaho\provision\build\samples\transformations\stg_load_ontime_data.ktr</filename>
+      <filename>./samples/transformations/stg_load_ontime_data.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
