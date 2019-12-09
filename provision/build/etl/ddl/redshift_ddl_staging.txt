@@ -1,0 +1,136 @@
+CREATE TABLE IF NOT EXISTS public.stg_airports
+(
+	iata VARCHAR(50)   ENCODE lzo
+	,airport VARCHAR(50)   ENCODE lzo
+	,city VARCHAR(50)   ENCODE lzo
+	,state VARCHAR(50)   ENCODE lzo
+	,country VARCHAR(50)   ENCODE lzo
+	,lat VARCHAR(50)   ENCODE lzo
+	,long VARCHAR(50)   ENCODE lzo
+);
+
+CREATE TABLE IF NOT EXISTS public.stg_carriers
+(
+	code VARCHAR(50)   ENCODE lzo
+	,description VARCHAR(200)   ENCODE lzo
+);
+
+CREATE TABLE IF NOT EXISTS public.stg_ontime
+(
+	"year" VARCHAR(50)   ENCODE lzo
+	,"month" VARCHAR(50)   ENCODE lzo
+	,dayofmonth VARCHAR(50)   ENCODE lzo
+	,dayofweek VARCHAR(50)   ENCODE lzo
+	,deptime VARCHAR(50)   ENCODE lzo
+	,crsdeptime VARCHAR(50)   ENCODE lzo
+	,arrtime VARCHAR(50)   ENCODE lzo
+	,crsarrtime VARCHAR(50)   ENCODE lzo
+	,uniquecarrier VARCHAR(50)   ENCODE lzo
+	,flightnum VARCHAR(50)   ENCODE lzo
+	,tailnum VARCHAR(50)   ENCODE lzo
+	,actualelapsedtime VARCHAR(50)   ENCODE lzo
+	,crselapsedtime VARCHAR(50)   ENCODE lzo
+	,airtime VARCHAR(50)   ENCODE lzo
+	,arrdelay VARCHAR(50)   ENCODE lzo
+	,depdelay VARCHAR(50)   ENCODE lzo
+	,origin VARCHAR(50)   ENCODE lzo
+	,dest VARCHAR(50)   ENCODE lzo
+	,distance VARCHAR(50)   ENCODE lzo
+	,taxiin VARCHAR(50)   ENCODE lzo
+	,taxiout VARCHAR(50)   ENCODE lzo
+	,cancelled VARCHAR(50)   ENCODE lzo
+	,cancellationcode VARCHAR(50)   ENCODE lzo
+	,diverted VARCHAR(50)   ENCODE lzo
+	,carrierdelay VARCHAR(50)   ENCODE lzo
+	,weatherdelay VARCHAR(50)   ENCODE lzo
+	,nasdelay VARCHAR(50)   ENCODE lzo
+	,securitydelay VARCHAR(50)   ENCODE lzo
+	,lateaircraftdelay VARCHAR(50)   ENCODE lzo
+);
+
+CREATE TABLE IF NOT EXISTS public.stg_planes
+(
+	tailnum VARCHAR(50)   ENCODE lzo
+	,"type" VARCHAR(50)   ENCODE lzo
+	,manufacturer VARCHAR(50)   ENCODE lzo
+	,issue_date DATE   ENCODE lzo
+	,model VARCHAR(50)   ENCODE lzo
+	,status VARCHAR(50)   ENCODE lzo
+	,aircraft_type VARCHAR(50)   ENCODE lzo
+	,engine_type VARCHAR(50)   ENCODE lzo
+	,"year" VARCHAR(50)   ENCODE lzo
+);
+
+CREATE FUNCTION usp_convertnavalues (null)
+RETURNS -
+VOLATILE
+AS $$
+BEGIN
+		-- SET NOCOUNT ON added to prevent extra result sets from
+		-- interfering with SELECT statements.
+		--SET NOCOUNT ON;
+
+
+		update airline_staging.public.stg_ontime
+		SET 
+			DepTime="0000"
+			where DepTime="NA";
+			update airline_staging.public.stg_ontime
+		SET
+CRSDepTime="0000"
+			where CRSDepTime="NA";
+
+			update airline_staging.public.stg_ontime
+		SET 
+			ArrTime="0000"
+			where ArrTime="NA";
+			update airline_staging.public.stg_ontime
+		SET 
+			CRSArrTime="0000"
+			where CRSArrTime="NA";
+			update airline_staging.public.stg_ontime
+		SET 
+			ActualElapsedTime="0000"
+			where ActualElapsedTime="NA";
+			update airline_staging.public.stg_ontime
+		SET 
+			AirTime="0000"
+			where AirTime="NA";
+			update airline_staging.public.stg_ontime
+		SET 
+			ArrDelay="0000"
+			where ArrDelay="NA";
+			update airline_staging.public.stg_ontime
+		SET 
+			DepDelay="0000"
+			where DepDelay="NA";
+update airline_staging.public.stg_ontime
+		SET 
+			Distance="0000"
+			where Distance="NA";
+			update airline_staging.public.stg_ontime
+		SET 
+			TaxiIn="0000"
+			where TaxiIn="NA";
+			update airline_staging.public.stg_ontime
+		SET 
+			TaxiOut="0000"
+			where TaxiOut="NA";
+END;
+$$ LANGUAGE plpgsql
+;
+
+
+
+CREATE FUNCTION usp_convertnullissuedate (null)
+RETURNS -
+VOLATILE
+AS $$
+begin
+  update public.stg_planes
+	SET issue_date="01/01/1900"
+	where issue_date=" ";
+end;
+$$ LANGUAGE plpgsql
+;
+

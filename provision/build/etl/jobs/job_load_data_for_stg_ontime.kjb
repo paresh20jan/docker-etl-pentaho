@@ -356,7 +356,6 @@
       <name>Start</name>
       <description/>
       <type>SPECIAL</type>
-      <attributes/>
       <start>Y</start>
       <dummy>N</dummy>
       <repeat>N</repeat>
@@ -372,13 +371,11 @@
       <nr>0</nr>
       <xloc>96</xloc>
       <yloc>240</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>Transformation</name>
       <description/>
       <type>TRANS</type>
-      <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
       <filename>./samples/transformations/stg_load_airline_data.ktr</filename>
@@ -420,13 +417,11 @@
       <nr>0</nr>
       <xloc>480</xloc>
       <yloc>240</yloc>
-      <attributes_kjc/>
     </entry>
     <entry>
       <name>SQL</name>
       <description/>
       <type>SQL</type>
-      <attributes/>
       <sql>drop table if exists test.stg_ontime;
 CREATE TABLE test.`stg_ontime` (
   `Year` varchar(1000) NULL,
@@ -470,7 +465,6 @@ CREATE TABLE test.`stg_ontime` (
       <nr>0</nr>
       <xloc>256</xloc>
       <yloc>240</yloc>
-      <attributes_kjc/>
     </entry>
   </entries>
   <hops>

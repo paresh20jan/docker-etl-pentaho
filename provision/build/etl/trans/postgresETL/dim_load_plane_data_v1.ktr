@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_load_plane_data_v2</name>
+    <name>dim_load_plane_data_v1</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -441,10 +441,10 @@
     <server>redshift-cluster-1.cjvsu6htxhqc.us-west-2.redshift.amazonaws.com</server>
     <type>REDSHIFT</type>
     <access>Native</access>
-    <database>airline</database>
+    <database>airline_dwh</database>
     <port>5439</port>
     <username>awsuser</username>
-    <password>Encrypted 2be98afc86aa7f2a7b21baf77dbc3fd89</password>
+    <password>Encrypted 2be98afc86af79397b80ea162dac3fd89</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -510,6 +510,15 @@
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
     <sql>
+COPY stg_planes
+from 's3://airlinepractice/data/plane-data.csv'
+credentials 'aws_access_key_id=AKIAI5Q53OHVHMB36TDA;aws_secret_access_key=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'
+csv
+null as '\000'
+IGNOREHEADER 1
+Dateformat 'MM/DD/YYYY'
+;
+
 call load_dim_plane ();</sql>
     <set_params>N</set_params>
     <insert_field/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>dim_load_plane_data_v2</name>
+    <name>dim_load_destairport_data_v1</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -428,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2019/10/14 15:29:53.541</created_date>
+    <created_date>2019/10/14 15:29:58.606</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2019/10/14 15:29:53.541</modified_date>
+    <modified_date>2019/10/14 15:29:58.606</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -441,10 +441,10 @@
     <server>redshift-cluster-1.cjvsu6htxhqc.us-west-2.redshift.amazonaws.com</server>
     <type>REDSHIFT</type>
     <access>Native</access>
-    <database>airline</database>
+    <database>airline_dwh</database>
     <port>5439</port>
     <username>awsuser</username>
-    <password>Encrypted 2be98afc86aa7f2a7b21baf77dbc3fd89</password>
+    <password>Encrypted 2be98afc86af79397b80ea162dac3fd89</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -510,7 +510,17 @@
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
     <sql>
-call load_dim_plane ();</sql>
+
+COPY stg_airports
+from 's3://airlinepractice/data/airports.csv'
+credentials 'aws_access_key_id=AKIAI5Q53OHVHMB36TDA;aws_secret_access_key=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'
+csv
+null as '\000'
+IGNOREHEADER 1
+;
+
+call load_destairport();
+</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>
@@ -526,8 +536,8 @@ call load_dim_plane ();</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>144</xloc>
-      <yloc>128</yloc>
+      <xloc>389</xloc>
+      <yloc>202</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
