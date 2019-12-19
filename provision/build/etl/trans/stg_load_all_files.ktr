@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>load_trail</name>
+    <name>stg_load_all_files</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -510,7 +511,7 @@
     <quoteString>N</quoteString>
     <sql>COPY stg.stg_planes
 from 's3://cybctgpareshairline/plane-data.csv'
-credentials 'aws_access_key_id=AKIA3SUBS7K3FYKHKW6W;aws_secret_access_key=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'
+iam_role 'arn:aws:iam::795914468022:role/Paresh_RedShift'
 csv
 null as '\000'
 IGNOREHEADER 1
@@ -520,7 +521,7 @@ dateformat 'MM/DD/YYYY'
 
 COPY stg.stg_airports
 from 's3://cybctgpareshairline/airports.csv'
-credentials 'aws_access_key_id=AKIA3SUBS7K3FYKHKW6W;aws_secret_access_key=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'
+iam_role 'arn:aws:iam::795914468022:role/Paresh_RedShift'
 csv
 null as '\000'
 IGNOREHEADER 1
@@ -530,7 +531,7 @@ IGNOREHEADER 1
 
 COPY stg.stg_carriers
 from 's3://cybctgpareshairline/carriers.csv'
-credentials 'aws_access_key_id=AKIA3SUBS7K3FYKHKW6W;aws_secret_access_key=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'
+iam_role 'arn:aws:iam::795914468022:role/Paresh_RedShift'
 csv
 null as '\000'
 IGNOREHEADER 1
@@ -539,13 +540,15 @@ IGNOREHEADER 1
 
 COPY stg.stg_ontime
 from 's3://cybctgpareshairline/fact/'
-credentials 'aws_access_key_id=AKIA3SUBS7K3FYKHKW6W;aws_secret_access_key=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'
+iam_role 'arn:aws:iam::795914468022:role/Paresh_RedShift'
 csv
 null as '\000'
 IGNOREHEADER 1
 ;
 
-call public.usp_convertnavalues();</sql>
+call public.usp_convertnavalues();
+
+</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>

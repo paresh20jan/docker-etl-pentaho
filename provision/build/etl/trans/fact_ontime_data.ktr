@@ -9,6 +9,11 @@
     <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
+      <parameter>
+        <name>p_year</name>
+        <default_value>1996</default_value>
+        <description/>
+      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -444,7 +449,7 @@
     <database>airline</database>
     <port>5439</port>
     <username>awsuser</username>
-    <password>Encrypted 2be98afc86af79397b80ea162dac3fd89</password>
+    <password>Encrypted 2be98afc86aa7f2a7b21baf77dbc3fd89</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -507,10 +512,10 @@
     <connection>RedshiftDWH</connection>
     <execute_each_row>N</execute_each_row>
     <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
+    <replace_variables>Y</replace_variables>
+    <quoteString>Y</quoteString>
     <sql>
-call load_fact_ontime();
+call load_fact_ontime_para(${p_year});
 </sql>
     <set_params>N</set_params>
     <insert_field/>
